@@ -22,7 +22,7 @@ The proc filesystem (procfs) provides information about the target system proces
 
 ### /etc/issue
 
-Systems can also be identified the `/etc/issue` file. The file usually contains informaiton about the operating system.
+Systems can also be identified the `/etc/issue` file. The file usually contains information about the operating system.
 
 ### ps
 
