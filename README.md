@@ -3,7 +3,6 @@ description: This is my place to store all my knowledge learning about cybersecu
 cover: >-
   https://images.unsplash.com/photo-1550751827-4bd374c3f58b?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwxOTcwMjR8MHwxfHNlYXJjaHw0fHxzZWN1cml0eXxlbnwwfHx8fDE2NjE5ODk3Mzk&ixlib=rb-1.2.1&q=80
 coverY: -624.2578456318914
-layout: landing
 ---
 
 # 💭 Welcome to Cybersecurity World!
