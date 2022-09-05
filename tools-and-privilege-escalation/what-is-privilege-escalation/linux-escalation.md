@@ -18,7 +18,99 @@ Will print system information giving additional detail about the kernel used by 
 
 ### /proc/version
 
-The proc filesystem (procfs) provides information about the target system processes.
+The proc filesystem (procfs) provides information about the target system processes. `/proc/version` may give information on the kernel version and additional data such as whether a compiler is installed.
+
+### /etc/issue
+
+Systems can also be identified the `/etc/issue` file. The file usually contains informaiton about the operating system.
+
+### ps
+
+The `ps` command is an effective way to see the running processes on a Linux system. The output of the `ps` (Process Status) will show the following:
+
+* PID: The process ID (unique to the process)
+* TTY: Terminal type used by the user
+* Time: Amount of CPU time used by the process (NOT time process has been running for)
+* CMD: The command or executable running (NOT display any command line parameter)
+
+The ps command provides several options:
+
+* `ps -A`: View all running processes
+* `ps axjf`: View process tree
+* `ps aux`: Will show processes for all users (a), display the user that launched the process (u), and show processes that are not attached to a terminal (x).
+
+### env
+
+`env` command will show environmental variables. The PATH variable may have compiler or a scripting language that could be used to run code on the target system or leveraged for privilege escalation.
+
+### sudo -l
+
+The target system may be configured to allow users to run some (or all) commands with root privileges.
+
+* `sudo -l` command can be used to list all commands user can run using sudo.
+
+### ls
+
+`ls` command with the `-la` parameter will show all files in the working directory.
+
+### id
+
+`id` command will provide a general overview of the user's privilege level and group memberships.
+
+### /etc/passwd
+
+Reading the `/etc/passwd` file can be an easy way to discover users on the system.
+
+### history
+
+Looking at earlier commands with `history` command will provide us an idea about the target system, have stored information such as passwords or usernames.
+
+### ifconfig
+
+The command will give us information about the network interfaces of the system.&#x20;
+
+* `ip route` command to see which network routes exist.
+
+### netstat
+
+After checking for existing interfaces and network routes, gather more information with the `netstat` command can be used with several different options on existing connections.
+
+* `netstat -a`: Show all listening ports and established connections.
+* `netstat -at` or `netstat -au` can also be used to list TCP or UDP protocols.
+* `netstat -l`: List ports in "listening" mode to open and ready to accept incoming connections.
+* `netstat -s` : List network usage statistics by protocol and can be used with `-t` or `-u` options to limit the output to a specific protocol.
+* `netstat -tp`: f
+
+### find
+
+Search the target system for important information and potential privilege escaltion vectors.
+
+* Find files with example commands:
+  * `find . -name flag1.txt`: find the file named "flag1.txt" in the current directory
+  * `find /home -name flag1.txt`: find the file names "flag1.txt" in the /home directory
+  * `find / -type d -name config`: find the directory named config under “/”
+  * `find / -type f -perm 0777`: find files with the 777 permissions (files readable, writable, and executable by all users)
+  * `find / -perm a=x`: find executable files
+  * `find /home -user frank`: find all files for user “frank” under “/home”
+  * `find / -mtime 10`: find files that were modified in the last 10 days
+  * `find / -atime 10`: find files that were accessed in the last 10 day
+  * `find / -cmin -60`: find files changed within the last hour (60 minutes)
+  * `find / -amin -60`: find files accesses within the last hour (60 minutes)
+  * `find / -size 50M`: find files with a 50 MB size
+*   Find folder and files that can be written to or executed from:
+
+    * `find / -writable -type d 2>/dev/null` : Find world-writeable folders
+    * `find / -perm -222 -type d 2>/dev/null`: Find world-writeable folders
+    * `find / -perm -o w -type d 2>/dev/null`: Find world-writeable folders
+
+
+*   Find development tools and supported languages:
+
+    * `find / -name perl*`
+    * `find / -name python*`
+    * `find / -name gcc*`
+
+
 
 ## Enumeration with LinEnum
 
