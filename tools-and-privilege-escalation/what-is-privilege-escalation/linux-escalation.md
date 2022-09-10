@@ -6,6 +6,8 @@ description: >-
 
 # Linux Escalation
 
+## Enumeration
+
 Enumeration is the first to take when gaining access to any system. Penetration testing engagements, unlike CTF machines do not end once gain access to a specific system or user privilege level. Enumeration is also important in post-exploit phase as it is before.
 
 ### hostname
@@ -112,13 +114,109 @@ Search the target system for important information and potential privilege escal
 
 
 
-## Enumeration with LinEnum
+## Kernel Exploits Escalation
+
+Privilege escalation leads to root privileges. This can be a simple exploit on an existing vulnerability or accessing another user account that has more privileges, information, or access.
+
+The kernel on Linux system manages the communication between components such as the memory on the system and applications. This critical function requires the kernel to have specific privileges by a successful exploit potentially to lead to root privileges.
+
+The kernel exploit methodology is simple:
+
+1. Identify the kernel version.
+2. Search and find an exploit code for the kernel version of the target system.
+3. Run the exploit.
+
+* Remember that a failed kernel exploit can lead to a system crash. Make sure the potential outcome is acceptable within the scope of penetration testing engagement before attempting a kernel exploit.
+
+**Research sources**:
+
+* Based on findings, use Google to search for an existing exploit code.
+* Sources such as [https://www.linuxkernelcves.com/cves](https://www.linuxkernelcves.com/cves) can be useful.
+
+**Hints/Notes:**
+
+* Being too specific about the kernel version when searching for exploits on Google, Exploit-DB, or searchsploit.
+* Understand how the exploit code BEFORE launch it. Some exploits can make changes on the operating system that would make them unsecured in further use or make irreversible changes to the system, creating problems later.
+* Some exploits may require further interaction once they are run. Read all comments and instructions provided with the exploit code.
+* Transfer the exploit code from machine to the target system using the `SimpleHTTPServer` python module and `wget` respectively.
+
+## Sudo Escalation
+
+The sudo command, by default, allows to run a program with root privileges. Under some conditions, system administrators may need to give regular users some flexibility on their privileges. An example is a junior SOC analyst may need to use Nmap regularly but not cleared for full root access.
+
+* Any user can check its current situation related to root privileges using the `sudo -l` command.
+* [https://gtfobins.github.io/](https://gtfobins.github.io/) is a valuable source that provides information on how any program, on which may have sudo rights, can be used.
+  * Leverage application functions where some applications will not have a known exploit within context. For example, Apache2 has an option that supports loading alternative configuration files (`-f` to specify an alternate ServerConfigFile).
+    * Loading the `/etc/shadow` file using this option will result in an error message that includes the first line of the shadow file.
+
+### LD\_PRELOAD
+
+Some systems have LD\_PRELOAD environment option - A function that allows any program to use shared libraries.
+
+* If the "envkeep" option is enabled, we can generate a shared library which will be loaded and executed before the program is run. Note the `LD_PRELOAD` option will be ignored if the real user ID is different from the effective user ID.
+
+The steps of privilege escalation:
+
+1. Check for `LD_PRELOAD` (with the env\_keep option).
+2. Write a simple C code compiled as a share object (.so extension) file.
+3. Run the program with sudo rights and the `LD_PRELOAD` option pointing to our .so file.
+
+Save the code as shell.c and compile it using gcc into a shared object file using `gcc -fPIC -shared -o shell.so shell.c -nostartfiles`
+
+Run the program by specifiying the shared object file when launching any program user can run with `sudo LD_PRELOAD=/home/user/ldpreload/shell.so find` - Results in shell spawn with root privileges.
+
+## SUID Privilege
+
+Linux privilege controls rely on controlling the users and files interactions. Files can have read, write, and execute permissions. SUID (Set-user Identification) and SGID (Set-group Identification) allow files to be executed with the permission level of the file owner or the group owner.
+
+`find / -type f -perm -04000 -ls 2>/dev/null` will list files that have SUID or SGID bits set.
+
+<figure><img src="https://i.imgur.com/fJEeZ4m.png" alt=""><figcaption></figcaption></figure>
+
+Compare executable on this list with [GTFOBins](https://gtfobins.github.io/) and clicking on the SUID button to filter binaries known to be exploitable when the SUID bit is set.
+
+The SUID bit set for the nano text editor allows us to create, edit and read files using the file owner's privilege. Nano is owned by root, which probably means that we can read and edit files at a higher privilege level than our current user.
+
+* Reading the `/etc/shadow` or adding a user to `/etc/passwd`
+* We see that the nano text editor has the SUID bit set by running the `find / -type f -perm -04000 -ls 2>/dev/null` command.
+* `nano /etc/shadow` will print the contents of the `/etc/shadow` file. We can now use the unshadow tool to create a file crack-able by John the Ripper. To achieve this, unshadow needs both the `/etc/shadow` and `/etc/passwd` files.
+  * An alternative to using unshadTHM-3847834ow and cracking passwords, we can add a new user that has root privileges using the hash value of the password we want.
+
+## Capabilities Escalation
+
+Another method system administrators can use to increase the privilege level of a process or binary is "capabilities". Capabilities help manage privileges at a more granular level. The capabilities man page provides detailed information on its usage and options.
+
+* Use the `getcap` tool to list enabled capabilities.
+  * When run as an unprivileged user, `getcap -r /` will generate a huge amount of errors. It is good practice to redirect the error messages to /dev/null.
+  * GTFOBins has a good list of binaries to be leveraged for privilege escalation if we find any set capabilities.
+
+<figure><img src="https://i.imgur.com/Q6XYr0p.png" alt=""><figcaption><p>getcap -r / 2>/dev/null</p></figcaption></figure>
+
+<figure><img src="https://i.imgur.com/6csoabB.png" alt=""><figcaption><p>vim</p></figcaption></figure>
+
+Neither vim or its copy has the SUID bit set so this privilege escalation vector is not discoverable when enumerating files looking for SUID.
+
+<figure><img src="https://i.imgur.com/nlpCMWj.png" alt=""><figcaption><p>command and payload</p></figcaption></figure>
+
+## Automated Enumeration Tools
+
+These automated tools should only be used to save time knowing they may miss some privilege escalation vectors.
+
+The target system's environment will influence which tool will be used.
+
+* [LinPeas](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
+* [LinEnum](https://github.com/rebootuser/LinEnum)
+* [LES (Linux Exploit Suggester)](https://github.com/mzet-/linux-exploit-suggester)
+* [Linux Smart Enumeration](https://github.com/diego-treitos/linux-smart-enumeration)
+* [Linux Priv Checker](https://github.com/linted/linuxprivchecker)
+
+### Enumeration with LinEnum
 
 LinEnum is a simple bash script that performs commands related to privilege escalation, saving time and allowing more effort to be put toward getting root.
 
 * Download a local copy of LinEnum from: https://github.com/rebootuser/LinEnum/blob/master/LinEnum.sh
 
-### How to get LinEnum on Target Machine
+#### How to get LinEnum on Target Machine
 
 There are two ways to get LinEnum on the target machine.
 
@@ -134,7 +232,7 @@ If unable to transport the file, and if have sufficient permissions, copy the ra
 
 * Finally make the file executable using the command `chmod +x FILENAME.sh` to have own executable copy of the LinEnum script on the target machine.
 
-### Running LinEnum
+#### Running LinEnum
 
 LinEnum can be run similar to any bash script.
 
