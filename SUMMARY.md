@@ -94,7 +94,7 @@
   * [Introduction to Meterpreter](tools-and-privilege-escalation/metasploit/introduction-to-meterpreter.md)
 * [Reverse/Bind Shells](tools-and-privilege-escalation/reverse-bind-shells.md)
 * [What is Privilege Escalation?](tools-and-privilege-escalation/what-is-privilege-escalation/README.md)
-  * [Linux Escalation](tools-and-privilege-escalation/what-is-privilege-escalation/linux-escalation.md)
+  * [Linux Privilege Escalation](tools-and-privilege-escalation/what-is-privilege-escalation/linux-escalation.md)
 
 ## ❗ Exploits
 

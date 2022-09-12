@@ -4,9 +4,9 @@ description: >-
   techniques.
 ---
 
-# Linux Escalation
+# Linux Privilege Escalation
 
-## Enumeration
+## Enumeration and Privilege Escalation
 
 Enumeration is the first to take when gaining access to any system. Penetration testing engagements, unlike CTF machines do not end once gain access to a specific system or user privilege level. Enumeration is also important in post-exploit phase as it is before.
 
@@ -337,10 +337,18 @@ If we have a writable /etc/passwd file, we can write a new line entry and create
 
 ## Exploit Crontab
 
-The Cron daemon is a long-running process that executes commands at specific dates and times.
+The Cron daemon is a long-running process that executes commands at specific dates and times. By default, they run with the privilege of their owners and not the current user.
 
 * Use to schedule activities, either as one-time events or as recurring tasks.
 * Can create a crontab file containing commands and instructions for the Cron daemon to execute.
+* Properly configured cron jobs are not inherently vulnerable, they can still provide a privilege escalation vector under some conditions.
+
+Crontab is always worth checking as it can lead to easy privilege escalation vectors. The following scenario is not uncommon in companies that do not have a certain cyber securiy maturity level:
+
+1. System administrators need to run a script at regular intervals.
+2. They create a cron job to do this.
+3. After some time, the script becomes useless, and they delete it.
+4. They do not clean the relevant cron job which leads to a potential exploit via cron jobs.
 
 ### How to View Active Cronjobs
 
@@ -361,7 +369,9 @@ Cronjob exist in a certain format.
 * user = What user the command will run as
 * command = What command should be run
 
-### Exploit
+<figure><img src="https://www.looklinux.com/wp-content/uploads/2017/01/crontab-format.jpg" alt=""><figcaption><p>crontab-format</p></figcaption></figure>
+
+#### Exploit
 
 From the LinEnum scan, the file autoscript.sh, on user4's desktop is scheduled to run every five minutes.
 
@@ -370,8 +380,60 @@ From the LinEnum scan, the file autoscript.sh, on user4's desktop is scheduled t
 
 ## Exploit PATH Variable
 
-PATH is an environmental variable in Linux and Unix-like operating systems which specifies directories that hold executable programs.
+PATH is an environmental variable in Linux and Unix-like operating systems which specifies directories that hold executable programs. If a folder for which the user has write permission is located in the path, there is potential to hijack an application to run a script.
+
+<figure><img src="https://i.imgur.com/ch2Z4zp.png" alt=""><figcaption><p>PATH</p></figcaption></figure>
 
 * When the user runs any command in the terminal, it searches for executable files with the help of the PATH variable in response to commands.
 * We can re-write the PATH variable to a location of our choosing.
   * SUID binary calls the system shell to run an executable.
+* If we type something to the command line, these are the locations Linux will look in for an executable.
+
+Ideas on how to increase privilege level depends on the existing configuration of the target system:
+
+* What folders are located under $PATH?
+* Does the current user have write privileges for any of these folders?
+* Can you modify $PATH?
+* Is there a script/application to start that will be affected by this vulnerability?
+
+If any writable folder is listed under PATH, we could create a binary under that directory and have our "path" script run it.
+
+* A simple search for writable folders can be done using `find / -writable 2>/dev/null` command. The output of this command can be cleaned using a simple cut and sort sequence.
+  * An alternative command `find / -writable 2>/dev/null | cut -d "/" -f 2,3 | grep -v proc | sort -u` to get rid of the many results related to running processes.
+* Any sub-folders under /usr are not writable.
+
+<figure><img src="https://i.imgur.com/7UekB3t.png" alt=""><figcaption><p><code>find / -writable 2>/dev/null | cut -d "/" -f 2,3 | grep -v proc | sort -u</code></p></figcaption></figure>
+
+The folder that will be easier to write to is /tmp. At this point, /tmp is not present in PATH so we will need to add it. The `export PATH=/tmp:$PATH` command accomplishes this.
+
+## NFS
+
+Privilege escalation vectors are not fined to internal access. Shared folders and remote management interfaces such as SSH and Telnet can also help gain root access to the target system. Some cases will also require using both vectors, such as finding a root SSH private key on the target system and connecting via SSH with root privileges instead of trying to increase current user's privilege level.
+
+Misconfigured network shell is a more relevant vector seen in CTFs and exams.&#x20;
+
+NFS (Network File Sharing) configuration is kept in the /etc/exports file. This file is created during the NFS server installation and can usually be read by users.
+
+<figure><img src="https://i.imgur.com/irDQTze.png" alt=""><figcaption><p>cat /etc/exports</p></figcaption></figure>
+
+The critical element for this privilege escalation vector is the `no_root_squash` option. By default, NFS will change the root user to nfsnobody and strip any file from operating with root privileges.
+
+* If the `no_root_squash` option is present on a writable share, we can create an executable with SUID bit set and run it on the target system.
+
+Enumerate mountable shares from attacking machine.
+
+<figure><img src="https://i.imgur.com/CmXPDcv.png" alt=""><figcaption><p>showmount -e</p></figcaption></figure>
+
+Mount one of the `no_root_squash` shares to the attacking machine and building our executable.
+
+<figure><img src="https://i.imgur.com/DwAB1qs.png" alt=""><figcaption></figcaption></figure>
+
+As we can set SUID bits, a simple executable will run `/bin/bash` on the target system and will do the job.
+
+<figure><img src="https://i.imgur.com/nWKpFkK.png" alt=""><figcaption><p>/bin/bash</p></figcaption></figure>
+
+Compile the code and set the SUID bit.
+
+<figure><img src="https://i.imgur.com/rkZOOjZ.png" alt=""><figcaption></figcaption></figure>
+
+Now the nfs executable has the SUID bit set on the target system and runs with root privileges.
