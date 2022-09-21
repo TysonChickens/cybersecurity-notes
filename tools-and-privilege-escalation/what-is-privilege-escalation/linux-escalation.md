@@ -81,7 +81,8 @@ After checking for existing interfaces and network routes, gather more informati
 * `netstat -at` or `netstat -au` can also be used to list TCP or UDP protocols.
 * `netstat -l`: List ports in "listening" mode to open and ready to accept incoming connections.
 * `netstat -s` : List network usage statistics by protocol and can be used with `-t` or `-u` options to limit the output to a specific protocol.
-* `netstat -tp`: f
+* `netstat -i`:  Shows interface statistics.
+* `netstat -tp`: Lists connection with service name and process ID information.
 
 ### find
 
@@ -405,6 +406,16 @@ If any writable folder is listed under PATH, we could create a binary under that
 <figure><img src="https://i.imgur.com/7UekB3t.png" alt=""><figcaption><p><code>find / -writable 2>/dev/null | cut -d "/" -f 2,3 | grep -v proc | sort -u</code></p></figcaption></figure>
 
 The folder that will be easier to write to is /tmp. At this point, /tmp is not present in PATH so we will need to add it. The `export PATH=/tmp:$PATH` command accomplishes this.
+
+The script below tries to call the system to 'thm' but can be replaced with any system binary.
+
+<figure><img src="https://i.imgur.com/qX7m2Jq.png" alt=""><figcaption></figcaption></figure>
+
+Now compile into an executable and set SUID permissions.
+
+<figure><img src="https://i.imgur.com/A6QQ65I.png" alt=""><figcaption></figcaption></figure>
+
+Once executed “path” will look for an executable named “thm” inside folders listed under PATH.
 
 ## NFS
 
