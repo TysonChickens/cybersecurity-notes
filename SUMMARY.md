@@ -71,10 +71,11 @@
 ## Operating Systems - Windows, Mac and Linux
 
 * [User and Kernel Mode](operating-systems-windows-mac-and-linux/user-and-kernel-mode.md)
+* [Linux File Systems](operating-systems-windows-mac-and-linux/linux-file-systems.md)
 * [Shortcuts and Commands](operating-systems-windows-mac-and-linux/shortcuts-and-commands.md)
 * [macOS Security Overview](operating-systems-windows-mac-and-linux/macos-security-overview.md)
 * [Windows File Systems and Directory Structure](operating-systems-windows-mac-and-linux/windows-file-systems-and-directory-structure/README.md)
-  * [Linux File Systems](operating-systems-windows-mac-and-linux/windows-file-systems-and-directory-structure/linux-file-systems.md)
+  * [Active Directory Basics](operating-systems-windows-mac-and-linux/windows-file-systems-and-directory-structure/active-directory-basics.md)
 * [An Overview of Virtualization](operating-systems-windows-mac-and-linux/an-overview-of-virtualization.md)
 
 ## Vulnerability Assessment
