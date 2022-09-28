@@ -202,3 +202,44 @@ NetNTLM works using a challenge-response mechanism.
 Note the user's password (or hash) is never transmitted through the network for security.
 
 _The described process applies when using a domain account. If a local account is used, the server can verify the response to the challenge itself without requiring interaction with the domain controller since it has the password hash stored locally on its SAM._
+
+## Trees, Forests, and Trusts
+
+As companies grow, having a single domain for a company might push into having more than one.
+
+### Trees
+
+Active Directory supports integrating multiple domains to help divide the network into units that can be managed independently. If you have two domains that share the same namespace, those domains can be joined into a **Tree**.
+
+<figure><img src="https://tryhackme-images.s3.amazonaws.com/user-uploads/5ed5961c6276df568891c3ea/room-content/abea24b7979676a1dcc0c568054544c8.png" alt=""><figcaption><p>Tree</p></figcaption></figure>
+
+The `thm.local` domain was split into two subdomains for UK and US branches building a tree from the root domain of `thm.local`.
+
+* People from the UK will have their own DC to manage for UK resources only.
+  * A UK user would not be able to manage US users.
+* Domain Admins of each branch will have complete control over their respective DC, but not other branches' DC.
+* Policies can be configured independently for each domain in the tree.
+
+**Enterprise Admins** group will grant a user administrative privileges over all of an enterprise's domains. Each domain will still have Domain Admins with administrator privileges over their single domains and the Enterprise Admins can control everything in the enterprise.
+
+### Forests
+
+The domains managed can also be configured in different namespaces. An example is if another company is merged together, each managed by its own IT department. The union of several trees with different namespaces into the same network is known as a **forest**.
+
+<figure><img src="https://tryhackme-images.s3.amazonaws.com/user-uploads/5ed5961c6276df568891c3ea/room-content/03448c2faf976db890118d835000bab7.png" alt=""><figcaption><p>Forest</p></figcaption></figure>
+
+### Trust Relationships
+
+At a certain point, a user at another subdomain might need to access a shared file in another server organized in trees and forests. Domains arranged in trees and forests are joined together by **trust relationships**.
+
+The most simple trust relationship that can be established is a **one-way trust relationship**.
+
+<figure><img src="https://tryhackme-images.s3.amazonaws.com/user-uploads/5ed5961c6276df568891c3ea/room-content/af95eb1a4b6c672491d8989f79c00200.png" alt=""><figcaption><p>one-way trust</p></figcaption></figure>
+
+This means a user on BBB can be authorized to access resources on AAA. The direction of the one-way trust relationship is contrary to that of the access direction.
+
+**Two-way trust relationships** can also be made to allow both domains to mutually authorize users from the other. By default, joining several domains under a tree or a forest will form a two-way trust relationship.
+
+It is important to note that having a trust relationship between domains does not automatically grant access to all resources on other domains.
+
+* Once a trust relationship is established, you have the chance to authorize users across different domains.
