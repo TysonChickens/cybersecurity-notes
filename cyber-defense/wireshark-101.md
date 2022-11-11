@@ -1,0 +1,214 @@
+---
+description: Introduction to Wireshark
+---
+
+# WireShark 101
+
+{% content-ref url="../vulnerability-assessment/vulnerability-assessment-tools/network-protocol-analyzers.md" %}
+[network-protocol-analyzers.md](../vulnerability-assessment/vulnerability-assessment-tools/network-protocol-analyzers.md)
+{% endcontent-ref %}
+
+## Introduction to Wireshark
+
+Wireshark is a tool used for creating and analyzing PCAPs (network packet capture files) commonly used as one of the best packet analysis tools.
+
+PCAPs have been sourced from the Wireshark Sample Captures Page.
+
+### Installation
+
+Wireshark typically comes with a packaged GUI wizard. If using Kali Linux, then it is already installed on the machine. Wireshark can run on Windows, macOS, and Linux. Here is [Wireshark website](https://www.wireshark.org/download.html).
+
+* For more information about Wireshark check out the [Wireshark Documentation](https://www.wireshark.org/docs/).
+
+## Wireshark Overview
+
+There are multiple interfaces to filter from to narrow down traffic to capture. On Wiresharks's main program page, we can choose to perform a live capture on the interface(s) or load a PCAP for analysis.
+
+### Live Packet Captures
+
+Begin capture on an interface by double-clicking the interface or by right-clicking and navigating to Start Capture. Depending on the network activity, there may be no packets coming in or see many packets streaming very quickly. Once done gathering packets, click the red square to stop capturing, and then begin analysis.
+
+To open a packet capture, go to File -> Open -> and select what PCAP to analyze. From this screen, Wireshark gives us some important info about each packet including:
+
+* Packet number
+* Time
+* Source
+* Destination
+* Protocol
+* Length
+* Packet Info
+
+Along with packet information, Wireshark also color codes packets in order of danger level as well as protocol to quickly spot anomalies and protocols in captures.
+
+<figure><img src="https://assets.tryhackme.com/additional/wireshark101/6.png" alt=""><figcaption></figcaption></figure>
+
+## Collection Methods
+
+The basic steps to gather a PCAP in Wireshark can be simple. Sometimes they can be difficult to include: taps, port mirroring, MAC floods, ARP Poisoning.
+
+Things to think about before attempting to collect and monitor live packet captures.
+
+* Start with a sample capture to ensure everything is correctly set up and are successfully capturing traffic.
+* Ensure the capture device has enough compute power to handle the number of packets based on the size of network.
+* Enough disk space to store all packet captures.
+
+Once all these criteria have been met and have a collection method, begin to actively monitor and collect packets on a network.
+
+### Network Taps
+
+Network taps are a physical implant to physically tap between a cable. These techniques are commonly used by Threat Hunting/DFIR teams and red teams in an engagement to sniff and capture packets. There are two primary ways of tapping a wire:
+
+1. Hardware tap the wire and intercept the traffic as it comes across (vampire tap).
+2. Inline network tap which is planted between or "inline" two network devices (Throwing Star LAN tap). The tap will replicate packets as they pass the tap.
+
+### MAC Floods
+
+A tactic commonly used by red teams to actively sniff packets. MAC flooding is intended to stress the switch and fill the CAM table. Once the CAM table is filled, the switch will no longer accept new MAC addresses. To keep the network alive, the switch will send out packets to all ports of the switch. _Note: This technique should be used with extreme caution and with explicit prior consent._
+
+### ARP Poisoning
+
+Another technique used by red teams to actively sniff packets. By ARP Poisoning, you can redirect the traffic from the host(s) to the machine monitoring from. This will not stress network equipment like MAC Flooding, however, should still be used with caution.
+
+## Filtering Captures
+
+Using packet filtering and display filters is important part of packet analysis. Wireshark's filter syntax can be simple having to understand basic boolean and logic operators.
+
+* and - operator: and / &&
+* or - operator: or /||
+* equals - operator: eq / ==
+* not equal - operator: ne / !=
+* greater than - operator: gt / >
+* less than - operator: lt / <
+
+Wireshark also has a few other operators beyond normal logical operators. [Wireshark Filtering Documentation](https://www.wireshark.org/docs/wsug\_html\_chunked/ChWorkBuildDisplayFilterSection.html) has more detailed information for operation.
+
+### Basic Filtering
+
+The basic syntax of Wireshark filters is a service or protocol like ip or tcp, followed by a dot and then an address, MAC, SRC, protocol, etc.
+
+Filtering by IP: `ip.addr == <IP_ADDRESS>`
+
+Filtering by SRC and DST to view source and destination traffic: `ip.src == <SRC IP ADDRESS> and ip.dst == <DST IP ADDRESS>`
+
+Filtering by TCP protocols: `tcp.port eq <PORT #> or <Protocol Name>`
+
+Filtering by UDP protocols: `udp.port eq <PORT #> or <Protocol Name>`
+
+## Packet Dissection
+
+Wireshark uses OSI layers to break down packets and how to use these layers for analysis.
+
+<figure><img src="https://assets.tryhackme.com/additional/wireshark101/12.png" alt=""><figcaption><p>7 Layers of the OSI Model</p></figcaption></figure>
+
+### Packet Details
+
+Packets consist of 5 to 7 layers based on the OSI model. There are 7 distinct layers to the packet: frame/packet, source \[MAC], source \[IP], protocol, protocol errors, application protocol, and application data.
+
+1. Frame: Show what frame / packet details specific to the Physical layer of the OSI model.
+2. Source \[MAC]: Show source and destination MAC addresses from the Data Link layer.
+3. Source \[IP]: Show source and destination IPv4 addresses from the Network layer.
+4. Protocol: Show details of the protocol used (UDP/TCP) along with source and destination ports from the Transport layer.
+   1. Protocol Errors is a continuation of the 4th layer showing specific segments from TCP needed to be reassembled.
+5. Application Protocol: Show details specific to the protocol being used such as HTTP, FTP, SMB, etc.
+   1. Application data is an extension of layer 5 that can show application-specific data.
+
+## ARP Traffic
+
+ARP or Address Resolution Protocol is a Layer 2 protocol used to connect IP Addresses with MAC addresses. They contain REQUEST and RESPONSE messages.
+
+* Request (1)
+* Reply (2)
+
+Useful to note Wireshark can resolve physical addresses. View -> Name Resolution -> Resolve Physical Addresses.
+
+### ARP Request Packets
+
+While looking at packet details, the most important details are the Opcode and target. Opcode, short for operation code, will tell whether it is an ARP Request or Reply.
+
+### ARP Reply Packets
+
+Packet details from the Opcode, that it is an ARP Reply packet having useful information like MAC and IP Address that was sent along with the reply since this is a reply packet.
+
+## ICMP Traffic
+
+ICMP or Internet Control Message Protocol is used to analyze various nodes a network. This is most commonly used with utilities like ping and traceroute.
+
+### ICMP Request
+
+* Type 8 = Request packet
+* Type 0 = Reply packet
+  * When these codes are altered or are not correct, typically a sign of suspicious activity.
+* Timestamp can be useful for identifying the time the ping was requested.
+* Data string is usually a random data string.
+
+### ICMP Reply
+
+The reply packet is very similar to the request packet except a reply packet is type 0.
+
+## TCP Traffic
+
+TCP or Transmission Control Protocol handles the delivery of packets including sequencing and errors. When analyzing TCP packets, Wireshark can be helpful and color code the packets in order of danger level. TCP can provide insight but may require other tools to further analyze the amount of captures.
+
+TCP packets and TCP handshake is a common thing that happens to establish a connection - SYN, SYNACK, ACK.
+
+* When the handshake is out of order, other packets like RST packet, something suspicious is happening on the network.
+
+### TCP Packet Analysis
+
+The main thing to look for when looking at a TCP packet is the sequence number and acknowledgement number.
+
+* When the acknowledgement number is 0, the port is not open.
+* View the original sequence number in Wireshark by navigating to Edit -> Preferences -> Protocols -> TCP -> Relative sequence numbers (uncheck boxes).
+
+## DNS Traffic
+
+DNS or Domain Name Service protocol is used to resolve names with IP addresses. When analyzing DNS packets, keep these things in mind:
+
+* Query-Response
+* DNS-Servers Only
+* UDP
+
+If any is out of place, then the packets should be looked at and should be considered suspicious.
+
+### DNS Query
+
+The first information to analyze is where the query is originating from. When analyzing DNS packets, understand current network environment to determine what is normal or suspicious activity.
+
+### DNS Response
+
+A response packet is similar to the query packet, but it includes an answer which can be used to verify the query.
+
+## HTTP Traffic
+
+HTTP or Hypertext Transfer Protocol is a commonly used port for the world wide web and used by some websites. However, HTTPS, its encrypted counterpart is more common. HTTP is used to send GET and POST requests to a web server to receive things like web pages. Understanding how to analyze HTTP can be helpful to spot things like SQLi, Web Shells, and other web-related attack vectors.
+
+Since the HTTP packet is not encrypted, important information such as the Request URI, File Data, and Server can be extracted.
+
+Wireshark's built-in features to help organize the protocols present in a capture the Protocol Hierarchy. Statistics -> Protocol Hierarchy
+
+Wireshark can also Export HTTP Object to organize all requested URIs in the capture. File -> Export Objects -> HTTP.
+
+Another feature is to organize all endpoints and IPs found within a specific capture. Statistics -> Endpoints.
+
+## HTTPS Traffic
+
+HTTPS or Hypertext Transfer Protocol Secure can be the most annoying protocols to understand from a packet analysis perspective. Before sending encrypted information, the client and server need to agree upon various steps to make a secure tunnel.
+
+1. Client and server agree on a protocol version.
+2. Client and server select a cryptographic algorithm.
+3. The client and server can authenticate to each other (optional)
+4. Creates a secure tunnel with a public key.
+
+Looking at a HTTPS packet for the handshake between the client and server:
+
+* SSLv2 Record Layer
+* Handshake Type
+* SSL Version
+* Session Details
+* SSL Certificate Information
+* Confirmation of the public key and secure tunnel
+
+The traffic between the Client and Server is now encrypted and will need the secret key to decrypt the data stream being sent between the two hosts.
+
+In Wireshark, use an RSA key to view the data unencrypted. To load an RSA key, navigate to Edit -> Preferences -> Protocols -> TLS -> \[+]. If using an older version of Wireshark, this will be SSL instead of TLS.
+

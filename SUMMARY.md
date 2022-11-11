@@ -86,6 +86,10 @@
 * [Threat Hunting Overview](vulnerability-assessment/threat-hunting-overview/README.md)
   * [Threat Intelligence and Cybersecurity](vulnerability-assessment/threat-hunting-overview/threat-intelligence-and-cybersecurity.md)
 
+## 🛡 Cyber Defense
+
+* [WireShark 101](cyber-defense/wireshark-101.md)
+
 ## 🖥 Tools and Privilege Escalation
 
 * [Firewalls](tools-and-privilege-escalation/firewalls/README.md)
