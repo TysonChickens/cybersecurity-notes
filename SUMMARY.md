@@ -78,17 +78,22 @@
   * [Active Directory Basics](operating-systems-windows-mac-and-linux/windows-file-systems-and-directory-structure/active-directory-basics.md)
 * [An Overview of Virtualization](operating-systems-windows-mac-and-linux/an-overview-of-virtualization.md)
 
-## Vulnerability Assessment
-
-* [Vulnerability Assessment Tools](vulnerability-assessment/vulnerability-assessment-tools/README.md)
-  * [Network Protocol Analyzers](vulnerability-assessment/vulnerability-assessment-tools/network-protocol-analyzers.md)
-  * [Port Scanning](vulnerability-assessment/vulnerability-assessment-tools/port-scanning.md)
-* [Threat Hunting Overview](vulnerability-assessment/threat-hunting-overview/README.md)
-  * [Threat Intelligence and Cybersecurity](vulnerability-assessment/threat-hunting-overview/threat-intelligence-and-cybersecurity.md)
-
 ## 🛡 Cyber Defense
 
-* [WireShark 101](cyber-defense/wireshark-101.md)
+* [Threat Hunting Overview](cyber-defense/threat-hunting-overview/README.md)
+  * [Threat Intelligence and Cybersecurity](cyber-defense/threat-hunting-overview/threat-intelligence-and-cybersecurity.md)
+* [Threat and Vulnerability Assessment Tools](cyber-defense/vulnerability-assessment-tools/README.md)
+  * [Network Protocol Analyzers](cyber-defense/vulnerability-assessment-tools/network-protocol-analyzers.md)
+  * [Port Scanning](cyber-defense/vulnerability-assessment-tools/port-scanning.md)
+  * [WireShark 101](cyber-defense/vulnerability-assessment-tools/wireshark-101.md)
+  * [Nessus](cyber-defense/vulnerability-assessment-tools/nessus.md)
+
+## ❗ Exploits
+
+* [Vulnerabilities 101](exploits/vulnerabilities-101/README.md)
+  * [Exploit Vulnerabilities](exploits/vulnerabilities-101/exploit-vulnerabilities.md)
+* [What is Command Injection?](exploits/what-is-command-injection/README.md)
+  * [What is SQL?](exploits/what-is-command-injection/what-is-sql.md)
 
 ## 🖥 Tools and Privilege Escalation
 
@@ -101,13 +106,6 @@
 * [What is Privilege Escalation?](tools-and-privilege-escalation/what-is-privilege-escalation/README.md)
   * [Linux Privilege Escalation](tools-and-privilege-escalation/what-is-privilege-escalation/linux-escalation.md)
   * [Windows Escalation](tools-and-privilege-escalation/what-is-privilege-escalation/windows-escalation.md)
-
-## ❗ Exploits
-
-* [Vulnerabilities 101](exploits/vulnerabilities-101/README.md)
-  * [Exploit Vulnerabilities](exploits/vulnerabilities-101/exploit-vulnerabilities.md)
-* [What is Command Injection?](exploits/what-is-command-injection/README.md)
-  * [What is SQL?](exploits/what-is-command-injection/what-is-sql.md)
 
 ## Penetration Test
 

@@ -3,8 +3,8 @@
 * [ ] Discuss Frameworks for Threat Intelligence.
 * [ ] Describe Security Intelligence.
 
-{% content-ref url="../../../../vulnerability-assessment/threat-hunting-overview/threat-intelligence-and-cybersecurity.md" %}
-[threat-intelligence-and-cybersecurity.md](../../../../vulnerability-assessment/threat-hunting-overview/threat-intelligence-and-cybersecurity.md)
+{% content-ref url="../../../../cyber-defense/threat-hunting-overview/threat-intelligence-and-cybersecurity.md" %}
+[threat-intelligence-and-cybersecurity.md](../../../../cyber-defense/threat-hunting-overview/threat-intelligence-and-cybersecurity.md)
 {% endcontent-ref %}
 
 ## Getting Started with ATT\&CK
