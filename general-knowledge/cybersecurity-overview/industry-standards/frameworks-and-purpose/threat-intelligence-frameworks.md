@@ -9,6 +9,10 @@
 
 ## Getting Started with ATT\&CK
 
+{% content-ref url="../../../../cyber-defense/vulnerability-assessment-tools/mitre.md" %}
+[mitre.md](../../../../cyber-defense/vulnerability-assessment-tools/mitre.md)
+{% endcontent-ref %}
+
 Can be useful for any organization that wants to move toward a threat-informed defense.
 
 * Level 1 for those starting out who may not have many resources.
@@ -27,7 +31,7 @@ Can be useful for any organization that wants to move toward a threat-informed d
 
 ## Cyber Threat Framework
 
-![dni](https://www.dni.gov/files/CTIIC/images/ctf\_master\_graphic.jpg)
+![DNI](https://pbs.twimg.com/media/DtRHGZBXQAUvO\_H?format=jpg\&name=large)
 
 ### Best Practices for Intelligent Detection
 
