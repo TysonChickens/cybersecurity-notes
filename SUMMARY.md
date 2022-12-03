@@ -88,6 +88,7 @@
   * [WireShark 101](cyber-defense/vulnerability-assessment-tools/wireshark-101.md)
   * [Nessus](cyber-defense/vulnerability-assessment-tools/nessus.md)
   * [MITRE](cyber-defense/vulnerability-assessment-tools/mitre.md)
+* [YARA](cyber-defense/yara.md)
 
 ## ❗ Exploits
 
