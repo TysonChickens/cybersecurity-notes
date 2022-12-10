@@ -19,6 +19,7 @@
       * [Hashing](general-knowledge/cybersecurity-overview/cryptography/introduction-to-cryptography/hashing.md)
       * [Digital Signatures](general-knowledge/cybersecurity-overview/cryptography/introduction-to-cryptography/digital-signatures.md)
     * [Impact of Quantum Computing](general-knowledge/cybersecurity-overview/cryptography/impact-of-quantum-computing.md)
+    * [Smart Contracts & Blockchain](general-knowledge/cybersecurity-overview/cryptography/smart-contracts-and-blockchain.md)
   * [🔍 Digital Forensics](general-knowledge/cybersecurity-overview/digital-forensics/README.md)
     * [Data Files](general-knowledge/cybersecurity-overview/digital-forensics/data-files.md)
   * [Industry Standards](general-knowledge/cybersecurity-overview/industry-standards/README.md)
