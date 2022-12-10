@@ -80,6 +80,7 @@
 
 ## 🛡 Cyber Defense
 
+* [CyberChef](cyber-defense/cyberchef.md)
 * [Threat Hunting Overview](cyber-defense/threat-hunting-overview/README.md)
   * [Threat Intelligence and Cybersecurity](cyber-defense/threat-hunting-overview/threat-intelligence-and-cybersecurity.md)
 * [Threat and Vulnerability Assessment Tools](cyber-defense/vulnerability-assessment-tools/README.md)
