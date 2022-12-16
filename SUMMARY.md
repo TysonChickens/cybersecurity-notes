@@ -91,6 +91,7 @@
   * [Nessus](cyber-defense/vulnerability-assessment-tools/nessus.md)
   * [MITRE](cyber-defense/vulnerability-assessment-tools/mitre.md)
 * [YARA](cyber-defense/yara.md)
+* [Zero Logon](cyber-defense/zero-logon.md)
 
 ## ❗ Exploits
 
