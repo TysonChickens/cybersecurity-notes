@@ -108,7 +108,7 @@ Cross-site scripting vulnerabilities are extremely common. Below are a few repor
 * JavaScript `eval()` function which accepts a JavaScript expression as a string argument and executes it. Use of this function is discouraged.
 * Same care is needed when the code generates pieces of JavaScript dynamically. Also discouraged.
 
-#### Input Validation
+### Input Validation
 
 **Whitelisting** is recommended.
 
