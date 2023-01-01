@@ -92,6 +92,7 @@
   * [MITRE](cyber-defense/vulnerability-assessment-tools/mitre.md)
 * [YARA](cyber-defense/yara.md)
 * [Zero Logon](cyber-defense/zero-logon.md)
+* [Memory Forensics](cyber-defense/memory-forensics.md)
 
 ## ❗ Exploits
 
