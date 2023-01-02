@@ -100,8 +100,8 @@
 
 * [Vulnerabilities 101](exploits/vulnerabilities-101/README.md)
   * [Exploit Vulnerabilities](exploits/vulnerabilities-101/exploit-vulnerabilities.md)
-* [What is Command Injection?](exploits/what-is-command-injection/README.md)
-  * [What is SQL?](exploits/what-is-command-injection/what-is-sql.md)
+* [What is SQL?](exploits/what-is-sql/README.md)
+  * [What is Command Injection?](exploits/what-is-sql/what-is-command-injection.md)
 
 ## 🖥 Tools and Privilege Escalation
 
