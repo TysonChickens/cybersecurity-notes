@@ -118,6 +118,7 @@
 
 ## Penetration Test
 
+* [Hardware Hacking](penetration-test/hardware-hacking.md)
 * [Penetration Testing](penetration-test/penetration-testing/README.md)
   * [Fundamentals](penetration-test/penetration-testing/fundamentals.md)
   * [Methodologies and Forensics](penetration-test/penetration-testing/methodologies-and-forensics.md)
