@@ -118,6 +118,8 @@
 
 ## Penetration Test
 
+* [Firmware Reverse Engineering](penetration-test/firmware-reverse-engineering/README.md)
+  * [Internet of Things](penetration-test/firmware-reverse-engineering/internet-of-things.md)
 * [Hardware Hacking](penetration-test/hardware-hacking.md)
 * [Penetration Testing](penetration-test/penetration-testing/README.md)
   * [Fundamentals](penetration-test/penetration-testing/fundamentals.md)
