@@ -81,6 +81,7 @@
 
 ## 🛡 Cyber Defense
 
+* [Threat Detection](cyber-defense/threat-detection.md)
 * [CyberChef](cyber-defense/cyberchef.md)
 * [Threat Hunting Overview](cyber-defense/threat-hunting-overview/README.md)
   * [Threat Intelligence and Cybersecurity](cyber-defense/threat-hunting-overview/threat-intelligence-and-cybersecurity.md)
