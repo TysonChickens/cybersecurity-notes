@@ -47,16 +47,39 @@ Incidents do not occur in a vacuum and can have an impact on multiple parts of a
 * Management → Information Assurance → IT Support → Legal ↓ Physical Security & Facilities Management ↓
 * Public Affairs & Media Relations → Human Resources → Business Continuity Planning → Physical Security & Facilities Management
 
-## Common Vector Attacks
+## Common Attack Vectors
 
 Organizations should be generally prepared to handle any incident but should focus on being prepared to handle incidents that use common attack vectors.
 
+An attack vector is a tool, technique, or method used to attack a computer system or network. In the physical world, weapons used would be a sword, arrow, hammers, and more.&#x20;
+
 * External/Removable Media
 * Intrusion
-* Web
-* Email
+* Web: Flaws in web browsers or files downloaded to compromise security.
+* Phishing Email
 * Impersonation
 * Loss or Theft of Equipment
+
+## Attack Surface
+
+The attack surface is the area of the victim that can be attacked and impacted by an attack vector and cause damage. In the physical world, the attack surface would be an unarmored soldier vulnerable to an arrow or sword.
+
+* Email server used for sending and receiving emails.
+* Internet-facing web server host website to visitors.
+* End-user machines that people use to connect to the network.
+* Humans manipulated and tricked through social engineering.
+
+### Examples Attack Surface Reduction
+
+* Close the open SSH port to prevent entry.
+* Implement shields or stronger password policy to prevent brute-forcing.
+* Control the flow of information to ensure credentials and other sensitive information are not exposed to the public.
+* Beware of deception such as phishing emails to employees and enable phishing protection on the email server.
+* Prepare to counter human error by disabling certain features or programs on end-user machines.
+* Strengthen each endpoint to the network using rules and an EDR platform with help [https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/attack-surface-reduction-rules-reference?view=o365-worldwide](https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/attack-surface-reduction-rules-reference?view=o365-worldwide)
+* Make defense invulnerable by performing a vulnerability scan and patching them to avoid exploitation.
+
+While attack surface reduction helps, there is always danger of a successful attack.
 
 ## Baseline Questions
 
