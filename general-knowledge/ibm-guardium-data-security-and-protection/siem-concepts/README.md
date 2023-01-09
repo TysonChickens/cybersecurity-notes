@@ -7,8 +7,6 @@
 * [ ] Deep drive of QRadar from a Security Analysts point of view.
 * [ ] Describe User Behavior Analytics (UBA) use cases.
 
-***
-
 ## SIEM
 
 SIEM (System Information Event Management) : A data aggregator, search, and reporting system. SIEM gathers immense amounts of data from entire networked environment, consolidates and makes that data human accessible. With the data categorized and laid out, you can research data security breaches with as much detail as needed.

@@ -63,7 +63,6 @@
     * [Types of Network Attacks](general-knowledge/network-security/protocols-and-servers/types-of-network-attacks.md)
 * [Scripting Overview](general-knowledge/scripting-overview/README.md)
   * [Python Basics](general-knowledge/scripting-overview/python-basics.md)
-* [Security Operations Center (SOC)](general-knowledge/security-operations-center-soc.md)
 * [Characteristics of Client System Administration](general-knowledge/characteristics-of-client-system-administration/README.md)
   * [Overview of Patching](general-knowledge/characteristics-of-client-system-administration/overview-of-patching.md)
   * [Endpoint Protection Basics](general-knowledge/characteristics-of-client-system-administration/endpoint-protection-basics.md)
