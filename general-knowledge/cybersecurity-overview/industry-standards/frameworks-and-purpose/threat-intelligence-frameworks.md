@@ -9,8 +9,8 @@
 
 ## Getting Started with ATT\&CK
 
-{% content-ref url="../../../../cyber-defense/vulnerability-assessment-tools/mitre.md" %}
-[mitre.md](../../../../cyber-defense/vulnerability-assessment-tools/mitre.md)
+{% content-ref url="../../../../cyber-defense/threat-hunting-overview/vulnerability-assessment-tools/mitre.md" %}
+[mitre.md](../../../../cyber-defense/threat-hunting-overview/vulnerability-assessment-tools/mitre.md)
 {% endcontent-ref %}
 
 Can be useful for any organization that wants to move toward a threat-informed defense.

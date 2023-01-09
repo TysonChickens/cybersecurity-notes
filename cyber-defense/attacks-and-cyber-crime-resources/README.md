@@ -1,4 +1,4 @@
-# Attacks and Cyber Crime Resources
+# Defense and Cyber Crime Resources
 
 * [ ] Describe how host insertions are used to compromise a network.
 * [ ] Describe what measures can be taken to protect against unauthorized insertion of a new host on your network.
@@ -8,7 +8,7 @@
 
 ## Cyber Kill Chain
 
-Cyber Kill Chain : A security model that outlines the phases of a cyberattack.
+Cyber Kill Chain : A security model that outlines the phases of a cyberattack from Lockheed Martin.
 
 ![Kill Chain](https://images.idgesg.net/images/article/2017/11/cyber-kill-chain-infographic-100741032-large.jpg)
 
@@ -35,15 +35,11 @@ The use of humans for cyber purposes.
   * VoIP allows caller identity to be spoofed.
 * Phishing attacks use email or malicious websites to impetrate personal information by acting as a trustworthy organization.
 
-***
-
 ## Cyberwarfare
 
 Cyberwarfare : Use of computer technology to disrupt the activities of a state or organization, especially the purpose attacking of information systems for strategic or military purposes.
 
 [List of significant cyber incidents since 2006.](https://www.csis.org/programs/strategic-technologies-program/significant-cyber-incidents)
-
-***
 
 ## Cyber-crime Resources
 
