@@ -1,6 +1,6 @@
 # Table of contents
 
-* [💭 Welcome to Tyson's Cybersecurity World!](README.md)
+* [💭 Tyson's Cybersecurity Knowledge Base!](README.md)
 
 ## 💻 General Knowledge
 
