@@ -81,6 +81,7 @@
 
 * [Defense and Cyber Crime Resources](general-knowledge/cybersecurity-overview/overview-of-types-of-actors-and-motives/attacks-and-cyber-crime-resources.md)
   * [Pyramid of Pain](cyber-defense/attacks-and-cyber-crime-resources/pyramid-of-pain.md)
+  * [Unified Kill Chain](cyber-defense/attacks-and-cyber-crime-resources/unified-kill-chain.md)
 * [Threat Detection](cyber-defense/threat-detection.md)
 * [CyberChef](cyber-defense/cyberchef.md)
 * [Threat Hunting Overview](cyber-defense/threat-hunting-overview/README.md)
