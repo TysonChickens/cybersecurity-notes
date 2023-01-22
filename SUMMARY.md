@@ -80,6 +80,7 @@
 ## 🛡 Cyber Defense
 
 * [Defense and Cyber Crime Resources](general-knowledge/cybersecurity-overview/overview-of-types-of-actors-and-motives/attacks-and-cyber-crime-resources.md)
+  * [Diamond Model](cyber-defense/attacks-and-cyber-crime-resources/diamond-model.md)
   * [Pyramid of Pain](cyber-defense/attacks-and-cyber-crime-resources/pyramid-of-pain.md)
   * [Unified Kill Chain](cyber-defense/attacks-and-cyber-crime-resources/unified-kill-chain.md)
 * [Threat Detection](cyber-defense/threat-detection.md)
