@@ -88,6 +88,7 @@
 * [Threat Hunting Overview](cyber-defense/threat-hunting-overview/README.md)
   * [Threat Intelligence and Cybersecurity](cyber-defense/threat-hunting-overview/threat-intelligence-and-cybersecurity.md)
   * [Threat and Vulnerability Assessment Tools](cyber-defense/threat-hunting-overview/vulnerability-assessment-tools/README.md)
+    * [Cyber Threat Intelligence](cyber-defense/threat-hunting-overview/vulnerability-assessment-tools/cyber-threat-intelligence.md)
     * [Network Protocol Analyzers](cyber-defense/threat-hunting-overview/vulnerability-assessment-tools/network-protocol-analyzers.md)
     * [Port Scanning](cyber-defense/threat-hunting-overview/vulnerability-assessment-tools/port-scanning.md)
     * [Packet Analysis](cyber-defense/threat-hunting-overview/vulnerability-assessment-tools/packet-analysis/README.md)
