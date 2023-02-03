@@ -60,7 +60,7 @@ Endpoint detection and response:
 
 ### Examine Endpoint Security Solution
 
-Kye factors to consider:
+Key factors to consider:
 
 * Threat Hunting
 * Detection Response
