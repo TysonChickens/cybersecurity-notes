@@ -51,7 +51,7 @@
   * [SIEM Concepts](general-knowledge/ibm-guardium-data-security-and-protection/siem-concepts/README.md)
     * [Artificial Intelligence in SIEM](general-knowledge/ibm-guardium-data-security-and-protection/siem-concepts/artificial-intelligence-in-siem.md)
 * [DevSecOps & Security Automation](general-knowledge/devsecops-and-security-automation.md)
-* [Network Security](general-knowledge/network-security/README.md)
+* [Network Security and Traffic Analysis](general-knowledge/network-security/README.md)
   * [Active Reconnaissance](general-knowledge/network-security/active-reconnaissance/README.md)
     * [Passive vs. Active Recon](general-knowledge/network-security/active-reconnaissance/passive-vs.-active-recon.md)
   * [Introduction to Nmap](general-knowledge/network-security/introduction-to-nmap/README.md)
