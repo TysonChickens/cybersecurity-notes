@@ -86,6 +86,7 @@
         * [Tools](cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/vulnerability-assessment-tools/cyber-threat-intelligence/tools.md)
         * [YARA](cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/vulnerability-assessment-tools/cyber-threat-intelligence/yara.md)
         * [MISP - Malware Information Sharing Platform](cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/vulnerability-assessment-tools/cyber-threat-intelligence/misp-malware-information-sharing-platform.md)
+        * [OpenCTI](cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/vulnerability-assessment-tools/cyber-threat-intelligence/opencti.md)
       * [Network Protocol Analyzers](cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/vulnerability-assessment-tools/network-protocol-analyzers.md)
       * [Port Scanning](cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/vulnerability-assessment-tools/port-scanning.md)
       * [Packet Analysis](cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/vulnerability-assessment-tools/packet-analysis/README.md)
