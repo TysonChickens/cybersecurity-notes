@@ -61,6 +61,7 @@
     * [Post Port Scans](general-knowledge/network-security/introduction-to-nmap/post-port-scans.md)
   * [Protocols & Servers](general-knowledge/network-security/protocols-and-servers/README.md)
     * [Types of Network Attacks](general-knowledge/network-security/protocols-and-servers/types-of-network-attacks.md)
+  * [Snort](general-knowledge/network-security/snort.md)
 * [Scripting Overview](general-knowledge/scripting-overview/README.md)
   * [Python Basics](general-knowledge/scripting-overview/python-basics.md)
 * [Characteristics of Client System Administration](general-knowledge/characteristics-of-client-system-administration/README.md)
