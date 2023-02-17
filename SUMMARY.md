@@ -94,6 +94,7 @@
         * [Wireshark 101](cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/vulnerability-assessment-tools/packet-analysis/wireshark-101.md)
       * [Nessus](cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/vulnerability-assessment-tools/nessus.md)
       * [MITRE](cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/vulnerability-assessment-tools/mitre.md)
+      * [OpenVAS](cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/vulnerability-assessment-tools/openvas.md)
     * [Diamond Model](cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/diamond-model.md)
     * [Pyramid of Pain](cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/pyramid-of-pain.md)
     * [Unified Kill Chain](cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/unified-kill-chain.md)
