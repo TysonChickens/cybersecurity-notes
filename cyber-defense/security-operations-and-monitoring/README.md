@@ -10,7 +10,9 @@ description: >-
 [core-windows-processes.md](core-windows-processes.md)
 {% endcontent-ref %}
 
-Sysinternals
+{% content-ref url="sysinternals.md" %}
+[sysinternals.md](sysinternals.md)
+{% endcontent-ref %}
 
 {% content-ref url="windows-event-logs.md" %}
 [windows-event-logs.md](windows-event-logs.md)
