@@ -106,6 +106,7 @@
 * [Memory Forensics](cyber-defense/memory-forensics.md)
 * [Security Operations & Monitoring](cyber-defense/security-operations-and-monitoring/README.md)
   * [Core Windows Processes](cyber-defense/security-operations-and-monitoring/core-windows-processes.md)
+  * [Windows Event Logs](cyber-defense/security-operations-and-monitoring/windows-event-logs.md)
 
 ## ❗ Exploits
 

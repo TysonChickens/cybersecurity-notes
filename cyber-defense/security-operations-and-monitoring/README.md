@@ -12,7 +12,9 @@ description: >-
 
 Sysinternals
 
-Windows Event Logs
+{% content-ref url="windows-event-logs.md" %}
+[windows-event-logs.md](windows-event-logs.md)
+{% endcontent-ref %}
 
 Sysmon
 
