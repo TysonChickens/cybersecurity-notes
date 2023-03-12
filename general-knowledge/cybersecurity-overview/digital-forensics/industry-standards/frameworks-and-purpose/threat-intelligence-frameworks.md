@@ -3,14 +3,14 @@
 * [ ] Discuss Frameworks for Threat Intelligence.
 * [ ] Describe Security Intelligence.
 
-{% content-ref url="../../../../cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/" %}
-[threat-intelligence-and-cybersecurity](../../../../cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/)
+{% content-ref url="../../../../../cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/" %}
+[threat-intelligence-and-cybersecurity](../../../../../cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/)
 {% endcontent-ref %}
 
 ## Getting Started with ATT\&CK
 
-{% content-ref url="../../../../cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/vulnerability-assessment-tools/mitre.md" %}
-[mitre.md](../../../../cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/vulnerability-assessment-tools/mitre.md)
+{% content-ref url="../../../../../cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/vulnerability-assessment-tools/mitre.md" %}
+[mitre.md](../../../../../cyber-defense/attacks-and-cyber-crime-resources/threat-intelligence-and-cybersecurity/vulnerability-assessment-tools/mitre.md)
 {% endcontent-ref %}
 
 Can be useful for any organization that wants to move toward a threat-informed defense.

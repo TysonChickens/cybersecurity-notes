@@ -13,8 +13,8 @@
 
 ## Threat Intelligence Overview
 
-{% content-ref url="../../../general-knowledge/cybersecurity-overview/industry-standards/frameworks-and-purpose/threat-intelligence-frameworks.md" %}
-[threat-intelligence-frameworks.md](../../../general-knowledge/cybersecurity-overview/industry-standards/frameworks-and-purpose/threat-intelligence-frameworks.md)
+{% content-ref url="../../../general-knowledge/cybersecurity-overview/digital-forensics/industry-standards/frameworks-and-purpose/threat-intelligence-frameworks.md" %}
+[threat-intelligence-frameworks.md](../../../general-knowledge/cybersecurity-overview/digital-forensics/industry-standards/frameworks-and-purpose/threat-intelligence-frameworks.md)
 {% endcontent-ref %}
 
 Cyber threat intelligence is information about threats and threat actors that helps mitigate harmful events in cyberspace.
