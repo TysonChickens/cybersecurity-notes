@@ -99,6 +99,22 @@ NIDS mode parameters:
 | -D        | <p>Background mode.<br></p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | -A        | <p>Alert modes;<br></p><p>full: Full alert mode, providing all possible information about the alert. This one also is the default mode; once you use -A and don't specify any mode, snort uses this mode.</p><p>fast:  Fast mode shows the alert message, timestamp, source and destination IP, along with port numbers.</p><p>console: Provides fast style alerts on the console screen.</p><p>cmg: CMG style, basic header details with payload in hex and text format.</p><p>none: Disabling alerting.</p> |
 
+### Using Rule without Configuration File
+
+Running Snort will help test user-created rules but will provide less performance.
+
+```shell-session
+sudo snort -c /etc/snort/rules/local.rules -A console
+```
+
+### IPS Mode and Dropping Packets
+
+Snort IPS mode activated with `Q --daq afpacket` parameters. Activate the Data Acquisition (DAQ) modules and afpacket module to use snort as an IPS: `-i eth0:eth1`
+
+```shell-session
+sudo snort -c /etc/snort/snort.conf -q -Q --daq afpacket -i eth0:eth1 -A console
+```
+
 ## PCAP Investigation Mode
 
 PCAP read/investigate mode helps work with pcap files to process and alert based on a ruleset. Snort pcap benefits from the rules to speed up investigation process using known patterns of threats.
