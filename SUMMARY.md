@@ -63,6 +63,7 @@
   * [Protocols & Servers](general-knowledge/network-security/protocols-and-servers/README.md)
     * [Types of Network Attacks](general-knowledge/network-security/protocols-and-servers/types-of-network-attacks.md)
   * [Snort](general-knowledge/network-security/snort.md)
+  * [Zeek Network Security Monitor](general-knowledge/network-security/zeek-network-security-monitor.md)
   * [NetworkMiner](general-knowledge/network-security/networkminer.md)
 * [Scripting Overview](general-knowledge/scripting-overview/README.md)
   * [Python Basics](general-knowledge/scripting-overview/python-basics.md)
